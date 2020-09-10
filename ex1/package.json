@@ -1,0 +1,15 @@
+{
+  "name": "ex1",
+  "version": "1.0.0",
+  "description": "executar `$ npm install` antes de executar o servidor e cliente",
+  "main": "client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ansi-color": "^0.2.1"
+  }
+}
