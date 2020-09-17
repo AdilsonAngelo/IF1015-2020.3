@@ -17,24 +17,32 @@ function console_out(msg) {
 
 const socket = dgram.createSocket('udp4')
 
-var CLIENT = {host: '', port: 8081}
+var CLIENT = undefined
 
-socket.on('message', (msg, rinfo) => {
-    console_out(msg.toString())
-    CLIENT = rinfo
+socket.on('error', err => {
+    console.error(err)
+    socket.close()
 })
 
 socket.on('listening', () => {
-    msg = color(`Server listening on `, 'magenta_bg+bold+black') + color(`${config.HOST}:${config.PORT}`, 'magenta_bg+bold+white')
-    console.log(msg)
+    let address = socket.address();
+    msg = color(`Server listening on `, 'magenta_bg+bold+black')
+        + color(`${address.address}:${address.port}`, 'magenta_bg+bold+white')
+    console_out(msg)
 })
 
-rl.on('line', line => {
-    let nick = color('SERVER', 'magenta+bold')
-    let stamp = color(config.timestamp(), 'yellow')
-    msg = `${stamp} ${nick}: ${line}`
-    socket.send(msg, CLIENT.port, CLIENT.address)
-    console_out(msg)
+socket.on('message', (msg, rinfo) => {
+    console_out(msg.toString())
+    if (CLIENT === undefined) {
+        CLIENT = rinfo
+        rl.on('line', line => {
+            let nick = color('SERVER', 'magenta+bold')
+            let stamp = color(config.timestamp(), 'yellow')
+            msg = `${stamp} ${nick}: ${line}`
+            socket.send(msg, CLIENT.port, CLIENT.address)
+            console_out(msg)
+        })
+    }
 })
 
 socket.bind(config.PORT, config.HOST)

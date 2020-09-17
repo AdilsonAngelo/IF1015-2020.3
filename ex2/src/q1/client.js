@@ -28,10 +28,14 @@ rl.addListener('line', line => {
     let nick = color(NAME, 'magenta+bold')
     let stamp = color(config.timestamp(), 'yellow')
     msg = `${stamp} ${nick}: ${line}`
-    socket.send(msg, config.PORT, config.HOST)
+    socket.send(msg, config.PORT, config.HOST, err => {
+        if (err) {
+            console.error(err)
+            socket.close()
+        }
+    })
     console_out(msg)
 })
-
 
 socket.on('message', (msg, rinfo) => {
     console_out(msg.toString())
