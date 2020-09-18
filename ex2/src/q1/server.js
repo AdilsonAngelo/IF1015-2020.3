@@ -1,7 +1,7 @@
 const dgram = require('dgram')
 const readline = require('readline')
 const config = require('./config.js')
-const color = require('./colors.js').color
+const { color } = require('./colors.js')
 
 const rl = readline.createInterface({
     input: process.stdin,
