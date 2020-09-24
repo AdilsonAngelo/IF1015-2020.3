@@ -1,7 +1,6 @@
 const dgram = require('dgram')
 const config = require('../config')
 const calculator = require('../calculator')
-const { error } = require('console')
 
 const server = dgram.createSocket('udp4')
 
