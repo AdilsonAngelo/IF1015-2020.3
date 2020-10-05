@@ -19,29 +19,21 @@ server.addService(calcPkg.Calculator.service, {
 server.start()
 
 function add(call, cb) {
-    let param1 = call.request.param1
-    let param2 = call.request.param2
-    cb(null, { response: param1 + param2 })
+    cb(null, { response: call.request.param1 + call.request.param2 })
 }
 function sub(call, cb) {
-    let param1 = call.request.param1
-    let param2 = call.request.param2
-    cb(null, { response: param1 - param2 })
+    cb(null, { response: call.request.param1 - call.request.param2 })
 }
 function mul(call, cb) {
-    let param1 = call.request.param1
-    let param2 = call.request.param2
-    cb(null, { response: param1 * param2 })
+    cb(null, { response: call.request.param1 * call.request.param2 })
 }
 function div(call, cb) {
-    let param1 = call.request.param1
-    let param2 = call.request.param2
-    if (param2 == 0) {
+    if (call.request.param2 === 0) {
         cb({
             code: 400,
             message: "Cannot divide by zero",
             status: grpc.status.INTERNAL
         }, null)
     }
-    cb(null, { response: param1 / param2 })
+    cb(null, { response: call.request.param1 / call.request.param2 })
 }
